@@ -1,66 +1,459 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ANDY DONG</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Doto:wght@100..900&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portfolio — Your Name</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:        #f7f4ef;
+      --bg2:       #efeae2;
+      --surface:   #ffffff;
+      --border:    #ddd8d0;
+      --text:      #1a1714;
+      --muted:     #9c9490;
+      --accent:    #b85c38;
+      --accent2:   #d4a574;
+      --font-display: 'Playfair Display', serif;
+      --font-body:    'DM Sans', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 1.75;
+      cursor: none;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+    /* Cursor */
+    #cursor-dot {
+      position: fixed; width: 6px; height: 6px;
+      background: var(--accent); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+    }
+    #cursor-ring {
+      position: fixed; width: 32px; height: 32px;
+      border: 1px solid var(--accent); border-radius: 50%;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: width 0.25s, height 0.25s; opacity: 0.6;
+    }
+    #cursor-ring.big { width: 56px; height: 56px; opacity: 1; }
+
+    /* Paper texture */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 9000;
+    }
+
+    /* Nav */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 28px 56px; z-index: 100;
+      background: linear-gradient(var(--bg), transparent);
+    }
+    .nav-logo { font-family: var(--font-display); font-size: 18px; font-weight: 400; }
+    .nav-links { display: flex; gap: 40px; }
+    .nav-links a {
+      font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* Hero */
+    #hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: end; padding: 0 56px 80px; gap: 40px;
+      position: relative;
+    }
+    .hero-eyebrow {
+      font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 28px;
+      opacity: 0; animation: fadeUp 0.7s 0.2s forwards;
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(52px, 7vw, 108px);
+      font-weight: 400; line-height: 1.0;
+      opacity: 0; animation: fadeUp 0.7s 0.35s forwards;
+    }
+    .hero-title em { font-style: italic; color: var(--accent); }
+    .hero-right {
+      display: flex; flex-direction: column; justify-content: flex-end; gap: 32px;
+      padding-bottom: 12px;
+      opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+    }
+    .hero-sub { color: var(--muted); font-size: 14px; max-width: 340px; line-height: 1.8; }
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); border-bottom: 1px solid var(--accent2);
+      padding-bottom: 6px; width: fit-content; transition: gap 0.25s;
+    }
+    .hero-cta:hover { gap: 20px; }
+    .hero-cta::after { content: '→'; }
+    .hero-ring {
+      position: absolute; right: 10%; top: 50%; transform: translateY(-50%);
+      width: min(380px, 40vw); aspect-ratio: 1; border-radius: 50%;
+      border: 1px solid var(--border); pointer-events: none;
+      opacity: 0; animation: fadeIn 1.2s 0.8s forwards;
+    }
+    .hero-ring::before {
+      content: ''; position: absolute; inset: 24px;
+      border-radius: 50%; border: 1px solid var(--bg2);
+    }
+
+    /* Sections */
+    section { padding: 120px 56px; }
+    .section-label {
+      font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 56px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .section-label::after {
+      content: ''; flex: 1; max-width: 48px; height: 1px; background: var(--accent2);
+    }
+
+    /* Gallery */
+    #work { border-top: 1px solid var(--border); }
+    .gallery-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 3px; }
+    .gallery-item {
+      position: relative; overflow: hidden;
+      background: var(--bg2); cursor: none;
+    }
+    .gallery-item:nth-child(1) { grid-column: span 7; aspect-ratio: 4/3; }
+    .gallery-item:nth-child(2) { grid-column: span 5; aspect-ratio: 3/4; }
+    .gallery-item:nth-child(3) { grid-column: span 4; aspect-ratio: 1; }
+    .gallery-item:nth-child(4) { grid-column: span 8; aspect-ratio: 16/9; }
+    .gallery-item:nth-child(5) { grid-column: span 6; aspect-ratio: 4/3; }
+    .gallery-item:nth-child(6) { grid-column: span 6; aspect-ratio: 4/3; }
+    .gallery-item img {
+      transition: transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.4s;
+      filter: saturate(85%);
+    }
+    .gallery-item:hover img { transform: scale(1.05); filter: saturate(110%); }
+    .gallery-caption {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; justify-content: flex-end; padding: 24px;
+      background: linear-gradient(transparent 40%, rgba(247,244,239,0.92));
+      opacity: 0; transition: opacity 0.35s;
+    }
+    .gallery-item:hover .gallery-caption { opacity: 1; }
+    .gallery-caption h3 { font-family: var(--font-display); font-weight: 400; font-size: 20px; }
+    .gallery-caption span { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+    .gallery-item::before {
+      content: attr(data-index);
+      position: absolute; top: 16px; left: 18px;
+      font-size: 10px; letter-spacing: 0.1em; color: var(--muted);
+      z-index: 1; opacity: 0; transition: opacity 0.3s;
+    }
+    .gallery-item:hover::before { opacity: 1; }
+
+    /* Lightbox */
+    #lightbox {
+      position: fixed; inset: 0;
+      background: rgba(247,244,239,0.96);
+      z-index: 1000; display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.35s;
+      backdrop-filter: blur(12px);
+    }
+    #lightbox.open { opacity: 1; pointer-events: all; }
+    .lightbox-inner { max-width: 88vw; position: relative; }
+    .lightbox-inner img {
+      max-width: 88vw; max-height: 78vh;
+      object-fit: contain; width: auto; height: auto;
+      box-shadow: 0 32px 80px rgba(26,23,20,0.12);
+    }
+    .lightbox-bar { margin-top: 20px; display: flex; justify-content: space-between; align-items: flex-end; }
+    .lightbox-title { font-family: var(--font-display); font-size: 26px; font-weight: 400; }
+    .lightbox-meta { font-size: 12px; color: var(--muted); text-align: right; }
+    #lightbox-close {
+      position: absolute; top: -36px; right: 0;
+      background: none; border: none;
+      font-family: var(--font-body); font-size: 11px; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--muted); cursor: none;
+    }
+    #lightbox-close:hover { color: var(--accent); }
+
+    /* About */
+    #about {
+      border-top: 1px solid var(--border);
+      display: grid; grid-template-columns: 5fr 4fr; gap: 100px; align-items: start;
+    }
+    .about-image {
+      aspect-ratio: 3/4; background: var(--bg2); overflow: hidden;
+      box-shadow: 24px 24px 0 var(--border);
+    }
+    .about-text { order: -1; }
+    .about-text h2 {
+      font-family: var(--font-display); font-size: clamp(32px, 4vw, 56px);
+      font-weight: 400; line-height: 1.15; margin-bottom: 28px;
+    }
+    .about-text p { color: var(--muted); margin-bottom: 16px; max-width: 500px; }
+    .skills-list { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 8px; }
+    .skill-tag {
+      padding: 7px 16px; border: 1px solid var(--border);
+      font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); background: var(--surface); transition: all 0.2s;
+    }
+    .skill-tag:hover { border-color: var(--accent2); color: var(--accent); }
+
+    /* Contact */
+    #contact { border-top: 1px solid var(--border); background: var(--bg2); }
+    #contact h2 {
+      font-family: var(--font-display); font-size: clamp(40px, 6vw, 88px);
+      font-weight: 400; line-height: 1.05; margin-bottom: 48px;
+    }
+    #contact h2 em { font-style: italic; color: var(--accent); }
+    .contact-links { display: flex; flex-wrap: wrap; }
+    .contact-link {
+      font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--muted); padding: 14px 28px;
+      border: 1px solid var(--border); margin-right: -1px; margin-bottom: -1px;
+      background: var(--surface); transition: all 0.2s;
+    }
+    .contact-link:hover {
+      background: var(--accent); color: white; border-color: var(--accent); z-index: 1; position: relative;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border); padding: 28px 56px;
+      display: flex; justify-content: space-between;
+      font-size: 11px; letter-spacing: 0.06em; color: var(--muted);
+    }
+
+    /* Animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav { padding: 20px 24px; }
+      section { padding: 80px 24px; }
+      #hero { grid-template-columns: 1fr; padding: 80px 24px 60px; }
+      .hero-ring { display: none; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-item { grid-column: span 1 !important; aspect-ratio: 1 !important; }
+      #about { grid-template-columns: 1fr; gap: 48px; }
+      .about-text { order: 0; }
+      footer { flex-direction: column; gap: 6px; }
+    }
+  </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#portfolio">Portfolio</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="container">
-            <h2>ANDY DONG</h2>
-          
-        </div>
-    </section>
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
 
-    <!-- Portfolio Gallery -->
-    <section id="portfolio" class="portfolio">
-        <div class="container">
-            <h2>My Work</h2>
-            <div class="gallery">
-                <div class="art-piece">
-                    <img src="images/artwork1.jpg" alt="Artwork title">
-                    <h3>Artwork Title</h3>
-                    <p>Description</p>
-                </div>
-                <!-- Repeat for more artworks -->
-            </div>
-        </div>
-    </section>
+  <nav>
+    <a href="#hero" class="nav-logo">Your Name</a>
+    <div class="nav-links">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
 
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <h2>About Me</h2>
-            <p>Your bio here</p>
-        </div>
-    </section>
+  <section id="hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow">Visual Artist &amp; Designer</p>
+      <h1 class="hero-title">Making<br>the <em>unseen</em><br>visible.</h1>
+    </div>
+    <div class="hero-right">
+      <p class="hero-sub">A curated collection of work spanning painting, photography, and mixed media — rooted in observation, shaped by intuition.</p>
+      <a href="#work" class="hero-cta">View the work</a>
+    </div>
+    <div class="hero-ring"></div>
+  </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2>Get in Touch</h2>
-            <a href="mailto:your-email@example.com">Email Me</a>
-        </div>
-    </section>
+  <section id="work">
+    <p class="section-label reveal">Selected Work</p>
+    <div class="gallery-grid" id="gallery"></div>
+  </section>
 
-    <script src="js/script.js"></script>
+  <section id="about">
+    <div class="about-text reveal">
+      <p class="section-label">About</p>
+      <h2>Creating from <em style="font-style:italic;color:var(--accent)">feeling</em>,<br>not formula.</h2>
+      <!-- ✏️ Edit this text -->
+      <p>I'm a [your city]-based artist working at the intersection of [your mediums]. My practice is driven by a fascination with [your themes or inspirations].</p>
+      <p>Currently available for commissions, collaborations, and exhibitions.</p>
+      <div class="skills-list" id="skills-list"></div>
+    </div>
+    <div class="about-image reveal">
+      <!-- ✏️ Replace with your photo -->
+      <img src="assets/portrait.jpg" alt="Portrait" onerror="this.style.background='var(--bg2)'"/>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="reveal">
+      <p class="section-label">Get in Touch</p>
+      <h2>Let's work<br><em>together.</em></h2>
+      <div class="contact-links" id="contact-links"></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© <span id="year"></span> Your Name. All rights reserved.</span>
+    <span>Built with care.</span>
+  </footer>
+
+  <div id="lightbox">
+    <div class="lightbox-inner">
+      <button id="lightbox-close">Close ×</button>
+      <img id="lightbox-img" src="" alt="" />
+      <div class="lightbox-bar">
+        <div class="lightbox-title" id="lightbox-title"></div>
+        <div class="lightbox-meta" id="lightbox-meta"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ══════════════════════════════════════════
+       ✏️  YOUR DATA — edit these arrays
+       ══════════════════════════════════════════ */
+
+    const WORKS = [
+      { title: "Untitled No. 1",    year: "2024", medium: "Oil on Canvas",  img: "assets/work-1.jpg" },
+      { title: "Liminal Space",     year: "2024", medium: "Photography",    img: "assets/work-2.jpg" },
+      { title: "Fragment III",      year: "2023", medium: "Mixed Media",    img: "assets/work-3.jpg" },
+      { title: "Soft Architecture", year: "2023", medium: "Digital",        img: "assets/work-4.jpg" },
+      { title: "After the Rain",    year: "2023", medium: "Watercolor",     img: "assets/work-5.jpg" },
+      { title: "Void Study",        year: "2022", medium: "Charcoal",       img: "assets/work-6.jpg" },
+    ];
+
+    const SKILLS = [
+      "Oil Painting", "Photography", "Illustration",
+      "Printmaking", "Digital Art", "Sculpture",
+    ];
+
+    const CONTACT = [
+      { label: "Email",     href: "mailto:you@example.com" },
+      { label: "Instagram", href: "https://instagram.com/yourhandle" },
+      { label: "Behance",   href: "https://behance.net/yourhandle" },
+      { label: "LinkedIn",  href: "https://linkedin.com/in/yourhandle" },
+    ];
+
+    /* ── Build Gallery ─────────────────────── */
+    const gallery = document.getElementById('gallery');
+    WORKS.forEach((work, i) => {
+      const item = document.createElement('div');
+      item.className = 'gallery-item reveal';
+      item.dataset.index = String(i + 1).padStart(2, '0');
+      item.innerHTML = `
+        <img src="${work.img}" alt="${work.title}" loading="lazy"
+             onerror="this.parentElement.style.background='var(--bg2)'"/>
+        <div class="gallery-caption">
+          <h3>${work.title}</h3>
+          <span>${work.medium} — ${work.year}</span>
+        </div>`;
+      item.addEventListener('click', () => openLightbox(work));
+      gallery.appendChild(item);
+    });
+
+    /* ── Build Skills ──────────────────────── */
+    const skillsList = document.getElementById('skills-list');
+    SKILLS.forEach(s => {
+      const tag = document.createElement('span');
+      tag.className = 'skill-tag';
+      tag.textContent = s;
+      skillsList.appendChild(tag);
+    });
+
+    /* ── Build Contact ─────────────────────── */
+    const contactLinks = document.getElementById('contact-links');
+    CONTACT.forEach(c => {
+      const a = document.createElement('a');
+      a.className = 'contact-link';
+      a.href = c.href;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.textContent = c.label;
+      contactLinks.appendChild(a);
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    /* ── Lightbox ──────────────────────────── */
+    const lightbox      = document.getElementById('lightbox');
+    const lightboxImg   = document.getElementById('lightbox-img');
+    const lightboxTitle = document.getElementById('lightbox-title');
+    const lightboxMeta  = document.getElementById('lightbox-meta');
+
+    function openLightbox(work) {
+      lightboxImg.src           = work.img;
+      lightboxImg.alt           = work.title;
+      lightboxTitle.textContent = work.title;
+      lightboxMeta.innerHTML    = `${work.medium}<br>${work.year}`;
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+    /* ── Scroll Reveal ─────────────────────── */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          entry.target.style.transitionDelay = `${(i % 4) * 90}ms`;
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    /* ── Custom Cursor ─────────────────────── */
+    const dot  = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
+    (function animateCursor() {
+      rx += (mx - rx) * 0.14;
+      ry += (my - ry) * 0.14;
+      dot.style.left  = mx + 'px';
+      dot.style.top   = my + 'px';
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+      requestAnimationFrame(animateCursor);
+    })();
+
+    document.querySelectorAll('a, button, .gallery-item').forEach(el => {
+      el.addEventListener('mouseenter', () => ring.classList.add('big'));
+      el.addEventListener('mouseleave', () => ring.classList.remove('big'));
+    });
+  </script>
 </body>
 </html>

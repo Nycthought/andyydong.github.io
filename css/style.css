@@ -1,12 +1,15 @@
 .Andy {
+    width: 700px;
+        height: 200px;
+}
 .BR img {
-    width: 500px;
-    height: 350px;
+    width: 700px;
+    height: 550px;
     object-fit: contain;
 }
 
 .Lilo img {
-    width: 500px;
-    height: 250px;
+    width: 700px;
+    height: 850px;
     object-fit: contain;
 }

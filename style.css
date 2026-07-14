@@ -1,11 +1,11 @@
-<!DOCTYPE html> 
-<html> 
-<head>
-<style> 
+.BR img {
+    width: 200px;
+    height: 150px;
+    object-fit: contain;
+}
 
-.drawings2023 {
-    background-image: url("images/bathroom.jpeg");
-    background-image: url("images/lilo.jpeg");
-    background-size: cover; 200 x 150 
-    background-position: center; 
+.Lilo img {
+    width: 200px;
+    height: 150px;
+    object-fit: contain;
 }

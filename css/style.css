@@ -3,9 +3,16 @@
 <head>
 <style> 
 
-.drawings2023 {
+.BR {
     background-image: url("images/bathroom.jpeg");
+    background-size: 200px 150px;
+    background-size: contain;
+    background-position: center; 
+    
+}
+.Lilo {
     background-image: url("images/lilo.jpeg");
-    background-size: cover; 200 x 150 
+    background-size: 200px 150px;
+    background-size: contain;
     background-position: center; 
 }

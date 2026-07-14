@@ -1,13 +1,6 @@
-.BR {
-    background-image: url("images/bathroom.jpeg");
-    background-size: 200px 150px;
-    background-size: contain;
-    background-position: center; 
-    
-}
-.Lilo {
-    background-image: url("images/lilo.jpeg");
-    background-size: 200px 150px;
-    background-size: contain;
-    background-position: center; 
+.BR img,
+.Lilo img {
+    width: 200px;
+    height: 150px;
+    object-fit: contain;
 }

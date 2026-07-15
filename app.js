@@ -49,3 +49,39 @@ window.addEventListener('DOMContentLoaded', async () => {
         }
     }
 });
+// Authorization token that must have been created previously. See : https://developer.spotify.com/documentation/web-api/concepts/authorization
+const token = 'BQANUrWmbCKAPlwS-rWek8rX8O1Hc_y5NHqocnpiYeFRV_o-JmARqhKG4sCk4TLBP2VDILGd79Fvhj8h4ndSSI0MXKzafUZAHjcNzvOgR-tcjFWvtEre5WbwoaZanReavsxiY6Q8oV2Vx5ZojDCK6Zw_swfvTNHQfo4mReZdD2SgioqNycJLd5aU3wbC0feopzNGU6aymJLCmKGg6gXwrsbJWDD6U-LOYJ4BtztlvF9QV4gf1Sv3iAyNyguzOc5GKh-kSkuXmpXSkOodeoIQBqUwtXPyBgk6mYg3lU41fjfgq2Fph-8WGfoC-CWZdpITHhZAwJPZ';
+async function fetchWebApi(endpoint, method, body) {
+  const res = await fetch(`https://api.spotify.com/${endpoint}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    method,
+    body:JSON.stringify(body)
+  });
+  return await res.json();
+}
+
+const tracksUri = [
+  'spotify:track:536rHxlVFXGJBO2xWE7HsV','spotify:track:2kTnXxFUsLjpdkCf4PEPKg','spotify:track:0jtSFAf3BJP0QX0VJU1Luo','spotify:track:1ZNFZIjroD9dWiG1SwkFc2','spotify:track:1JblDE7lQlw09HD3vm2YyZ'
+];
+
+async function createPlaylist(tracksUri){
+  const playlist = await fetchWebApi(
+    'v1/me/playlists', 'POST', {
+      "name": "My top tracks playlist",
+      "description": "Playlist created by the tutorial on developer.spotify.com",
+      "public": false
+  })
+
+  await fetchWebApi(
+    `v1/playlists/${playlist.id}/items?uris=${tracksUri.join(',')}`,
+    'POST'
+  );
+
+  return playlist;
+}
+
+const createdPlaylist = await createPlaylist(tracksUri);
+console.log(createdPlaylist.name, createdPlaylist.id);
+

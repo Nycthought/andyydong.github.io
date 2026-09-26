@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>[Your Name] — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+  /* ============================================================
+     CUSTOMIZE HERE: colors, fonts, and spacing.
+     Change these variables and the whole site updates.
+     ============================================================ */
+  :root{
+    --color-bg: #FFFFFF;        /* page background */
+    --color-text: #1A1A1A;      /* main text color */
+    --color-muted: #6B6B6B;     /* secondary/gray text */
+    --color-accent: #2255FF;    /* links, buttons, highlights — change to your brand color */
+    --color-border: #E5E5E5;    /* thin lines and dividers */
+    --color-card: #F7F7F7;      /* placeholder image blocks */
+    --font-body: 'Inter', -apple-system, sans-serif;
+    --max-width: 880px;         /* how wide the content column is */
+    --radius: 4px;              /* corner rounding — set to 0 for sharp corners */
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; scroll-padding-top: env(safe-area-inset-top, 0px); }
+  body{
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    font-size: 17px;
+  }
+  img{ max-width: 100%; display: block; }
+  a{ color: var(--color-accent); }
+
+  .wrap{
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    background: var(--color-bg);
+    z-index: 10;
+  }
+  .nav-inner{
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-inner .name{
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--color-text);
+  }
+  .nav-inner nav{ display: flex; gap: 24px; }
+  .nav-inner nav a{
+    text-decoration: none;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+  .nav-inner nav a:hover{ color: var(--color-accent); }
+
+  /* ---------- HERO ---------- */
+  .hero{ padding: 72px 0 56px; }
+  .hero h1{
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 16px;
+    max-width: 18ch;
+  }
+  .hero p{
+    color: var(--color-muted);
+    font-size: 1.1rem;
+    max-width: 55ch;
+    margin: 0 0 28px;
+  }
+  .btn{
+    display: inline-block;
+    padding: 12px 22px;
+    background: var(--color-accent);
+    color: #fff;
+    text-decoration: none;
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  .btn:hover{ opacity: 0.9; }
+  .btn-outline{
+    background: transparent;
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    margin-left: 10px;
+  }
+
+  /* ---------- SECTION HEADINGS ---------- */
+  .section{ padding: 56px 0; border-top: 1px solid var(--color-border); }
+  .section h2{
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 8px;
+  }
+  .section > .wrap > p.section-intro{
+    color: var(--color-muted);
+    margin: 0 0 32px;
+    max-width: 60ch;
+  }
+
+  /* ---------- WORK GRID ---------- */
+  /* Change grid-template-columns below to control how many items per row */
+  .work-grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+  .work-item .thumb{
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    aspect-ratio: 4/3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 16px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  /* Once you add a real image, use: <img src="images/yourfile.jpg" alt="..."> inside .thumb */
+  .work-item .thumb img{ width: 100%; height: 100%; object-fit: cover; }
+  .work-item h3{ font-size: 1.05rem; font-weight: 600; margin: 0 0 4px; }
+  .work-item p{ color: var(--color-muted); font-size: 0.92rem; margin: 0; }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  .about-photo{
+    aspect-ratio: 1/1;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-muted);
+    font-size: 0.85rem;
+    text-align: center;
+    padding: 12px;
+  }
+  .about-copy p{ margin: 0 0 14px; max-width: 58ch; }
+  .skills{ display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .skill{
+    font-size: 0.85rem;
+    padding: 6px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    color: var(--color-muted);
+  }
+
+  /* ---------- CONTACT ---------- */
+  .contact p{ color: var(--color-muted); max-width: 50ch; }
+  .contact .btn{ margin-top: 8px; }
+
+  footer{
+    padding: 32px 0;
+    border-top: 1px solid var(--color-border);
+    color: var(--color-muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+
+  /* ---------- DARK MODE (matches visitor's system setting) ---------- */
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --color-bg: #14141A;
+      --color-text: #F2F2F2;
+      --color-muted: #9A9AA5;
+      --color-border: #2A2A32;
+      --color-card: #1E1E26;
+    }
+  }
+  :root[data-theme="dark"]{
+    --color-bg: #14141A;
+    --color-text: #F2F2F2;
+    --color-muted: #9A9AA5;
+    --color-border: #2A2A32;
+    --color-card: #1E1E26;
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 640px){
+    .work-grid{ grid-template-columns: 1fr; }
+    .about-grid{ grid-template-columns: 1fr; }
+    .about-photo{ width: 140px; margin: 0 auto; }
+    .nav-inner nav{ gap: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="name" href="#top">[Your Name]</a>
+    <nav>
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="wrap">
+    <h1>[Your Name] — Illustration &amp; Branding</h1>
+    <p>[One or two sentences about what you do and who you do it for — e.g. "I design brand identities and illustrations for small businesses and independent creators."]</p>
+    <a class="btn" href="#work">View my work</a>
+    <a class="btn btn-outline" href="mailto:you@email.com">Get in touch</a>
+  </div>
+</section>
+
+<section class="section" id="work">
+  <div class="wrap">
+    <h2>Selected Work</h2>
+    <p class="section-intro">[Short line about the kind of work shown here.]</p>
+
+    <!-- WORK GRID: copy/paste a .work-item block below to add more projects -->
+    <div class="work-grid">
+
+      <div class="work-item">
+        <div class="thumb">[project image]</div>
+        <h3>[Project Title]</h3>
+        <p>[Illustration / Branding — one line description]</p>
+      </div>
+
+      <div class="work-item">
+        <div class="thumb">[project image]</div>
+        <h3>[Project Title]</h3>
+        <p>[Illustration / Branding — one line description]</p>
+      </div>
+
+      <div class="work-item">
+        <div class="thumb">[project image]</div>
+        <h3>[Project Title]</h3>
+        <p>[Illustration / Branding — one line description]</p>
+      </div>
+
+      <div class="work-item">
+        <div class="thumb">[project image]</div>
+        <h3>[Project Title]</h3>
+        <p>[Illustration / Branding — one line description]</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <div class="wrap about-grid">
+    <div class="about-photo">[your photo]</div>
+    <div class="about-copy">
+      <h2>About</h2>
+      <p>[A few sentences about your background, how you got into art/design, and what kind of projects you enjoy most.]</p>
+      <p>[Optional second paragraph — your process, influences, or what clients can expect working with you.]</p>
+      <div class="skills">
+        <span class="skill">[Skill]</span>
+        <span class="skill">[Skill]</span>
+        <span class="skill">[Skill]</span>
+        <span class="skill">[Skill]</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section contact" id="contact">
+  <div class="wrap">
+    <h2>Contact</h2>
+    <p>[A line inviting people to reach out — e.g. "Available for freelance illustration and branding projects. Let's talk about yours."]</p>
+    <a class="btn" href="mailto:you@email.com">you@email.com</a>
+  </div>
+</section>
+
+<footer>
+  © 2026 [Your Name]
+</footer>
+
+</body>
+</html>

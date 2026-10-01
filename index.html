@@ -124,10 +124,18 @@
 
   /* ---------- WORK GRID ---------- */
   /* Change grid-template-columns below to control how many items per row */
-  .work-grid{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 32px;
+.work-grid{
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: clamp(260px, 36vw, 520px);
+  gap: 32px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;        /* hides the scrollbar */
+  padding: 0 32px;
+}
+.work-grid::-webkit-scrollbar { display: none; }
+.work-grid > * { scroll-snap-align: start; }
   }
   .work-item .thumb{
     background: var(--color-card);

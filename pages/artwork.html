@@ -1,1 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Artworks</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap" rel="stylesheet">
+<style>
 
+   /* ============================================================
+     CUSTOMIZE HERE: colors, fonts, and spacing.
+     Change these variables and the whole site updates.
+     ============================================================ */
+  :root{
+    --color-bg: #FFFFFF;        /* page background */
+    --color-text: #1A1A1A;      /* main text color */
+    --color-muted: #6B6B6B;     /* secondary/gray text */
+    --color-accent: #2255FF;    /* links, buttons, highlights — change to your brand color */
+    --color-border: #E5E5E5;    /* thin lines and dividers */
+    --color-card: #F7F7F7;      /* placeholder image blocks */
+    --font-body: 'Inter', -apple-system, sans-serif;
+    --font-serif: 'Newsreader' Georgia, serif;
+    --max-width: 880px;         /* how wide the content column is */
+    --radius: 4px;              /* corner rounding — set to 0 for sharp corners */
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  /* ---------- WORK GRID ---------- */
+  /* Change grid-template-columns below to control how many items per row */
+.work-grid{
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: clamp(260px, 36vw, 520px);
+  gap: 32px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;        /* hides the scrollbar */
+  padding: 0 32px;
+}
+.work-grid::-webkit-scrollbar { display: none; }
+.work-grid > * { scroll-snap-align: start; }
+  }
+  .work-item .thumb{
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    aspect-ratio: 4/3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 16px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  /* Once you add a real image, use: <img src="images/yourfile.jpg" alt="..."> inside .thumb */
+  .Sep{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;            /* fills the box, cropping the edges if needed */
+  display: block;
+  }
+                  
+  .work-item { font-size: 1.05rem; font-weight: 600; margin: 0 0 4px; }
+  .work-item p{ color: var(--color-muted); font-size: 0.92rem; margin: 0; }
+
+</style>
+</head>
+</body>
+  <section class="section" id="work">
+  <div class="wrap">
+    <h2>Artwork</h2>
+    <p class="section-intro"></p>
+
+    <!-- WORK GRID: copy/paste a .work-item block below to add more projects -->
+    <div class="work-grid">
+
+      <div class="Dreams">
+        <div class="thumb"><img src="images/Sep26.jpeg"</div>
+        <h3>[Dreams on the shelf]</h3>
+        <p>[Digital - 2026]</p>
+        </div>
+
+        
+      <div class="feet">
+        <div class="thumb"><img src="images/feet.jpg"</div>
+        <h3>[Cuties]</h3>
+        <p>[Digital - 2026]</p>
+      </div>
+
+      <div class="booty">
+        <div class="thumb"><img src="images/booty.JPG"</div>
+        <h3>[untitled]</h3>
+        <p>[Digital - 2026]</p>
+        </div>
+</html>

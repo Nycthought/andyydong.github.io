@@ -27,7 +27,7 @@
       padding-bottom: env(safe-area-inset-bottom, 0px);
     }
 
-    .work-grid{
+   align-items: start;.work-grid{
       display: grid;
       grid-auto-flow: column;
       grid-auto-columns: clamp(260px, 36vw, 520px);
@@ -44,21 +44,13 @@
       background: var(--color-card);
       border: 1px solid var(--color-border);
       border-radius: var(--radius);
-      aspect-ratio: 4/3;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--color-muted);
-      font-size: 0.9rem;
-      text-align: center;
       margin-bottom: 12px;
       overflow: hidden;
     }
 
     .dreams{
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: auto%;
       display: block;
     }
 
@@ -66,6 +58,8 @@
     .work-grid p{ color: var(--color-muted); font-size: 0.92rem; margin: 0; }
   </style>
 </head>
+
+  
 <body>
   <section class="section" id="work">
     <div class="wrap">
@@ -75,19 +69,19 @@
       <div class="work-grid">
 
         <div class="Dreams">
-          <div class="thumb"><img src="images/Sep26.jpeg" alt="Dreams on the shelf"></div>
+          <div class="thumb"><img class="dreams" src="images/Sep26.jpeg" alt="Dreams on the shelf"></div>
           <h3>Dreams on the shelf</h3>
           <p>Digital - 2026</p>
         </div>
 
         <div class="feet">
-          <div class="thumb"><img src="images/feet.jpg" alt="Cuties"></div>
+          <div class="thumb"><img class="dreams" src="images/feet.jpg" alt="Cuties"></div>
           <h3>Cuties</h3>
           <p>Digital - 2026</p>
         </div>
 
         <div class="booty">
-          <div class="thumb"><img src="images/booty.JPG" alt="Untitled"></div>
+          <div class="thumb"><img class="dreams" src="images/booty.JPG" alt="Untitled"></div>
           <h3>Untitled</h3>
           <p>Digital - 2026</p>
         </div>

@@ -281,12 +281,12 @@
 <footer>© 2026 Andy Dong</footer>
 
 <!-- ================= LIGHTBOX ================= -->
-<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Artwork viewer" hidden>
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Gallery viewer" hidden>
   <div class="lb-count" id="lb-count"></div>
   <button class="lb-close" id="lb-close" aria-label="Close">✕</button>
   <button class="lb-prev" id="lb-prev" aria-label="Previous">‹</button>
-  <figure class="lb-figure">
-    <img class="lb-media" id="lb-img" alt="">
+  <figure class="lb-figure" id="lb-figure">
+    <div id="lb-stage"></div>
     <figcaption class="lb-cap"><strong id="lb-title"></strong><span id="lb-desc"></span></figcaption>
   </figure>
   <button class="lb-next" id="lb-next" aria-label="Next">›</button>
@@ -378,9 +378,6 @@
   });
 })();
 </script>
-
-
-
 
 </body>
 </html>

@@ -54,7 +54,7 @@
   .section h2{ font-size: 1.75rem; font-weight: 700; margin: 0 0 8px; }
   .section-intro{ color: var(--color-muted); margin: 0 0 28px; max-width: 60ch; }
 
-  /* ---------- GALLERY (masonry: shows each drawing uncropped) ---------- */
+  /* ---------- GALLERY (masonry: shows each piece uncropped) ---------- */
   /* Change column-width to make thumbnails bigger or smaller */
   .gallery{
     column-width: 260px;
@@ -67,33 +67,33 @@
     font: inherit; color: inherit; text-align: left; cursor: pointer;
   }
   .g-thumb{
+    position: relative;
     background: var(--color-card);
     border: 1px solid var(--color-border);
     border-radius: var(--radius);
     overflow: hidden;
   }
-  .g-item{
-  display: block;
-  width: 100%;
-  margin: 0 0 var(--grid-gap);
-  break-inside: avoid;
-  }
-  .g-thumb{
-  position: relative;
-  aspect-ratio: auto;        /* remove any forced ratio */
-  height: auto;
-  overflow: hidden;
-  background: #eee;
-  }
-  .g-thumb img{
+  .g-thumb img,
+  .g-thumb video{
+    display: block;
     width: 100%; height: auto;
     transition: transform 0.35s ease;
   }
   .g-item:hover .g-thumb img,
-  .g-item:focus-visible .g-thumb img{ transform: scale(1.04); }
+  .g-item:hover .g-thumb video,
+  .g-item:focus-visible .g-thumb img,
+  .g-item:focus-visible .g-thumb video{ transform: scale(1.04); }
   .g-item:focus-visible{ outline: 2px solid var(--color-accent); outline-offset: 4px; border-radius: var(--radius); }
   .g-item h3{ font-size: 1.02rem; font-weight: 600; margin: 10px 0 2px; }
   .g-item p{ color: var(--color-muted); font-size: 0.9rem; margin: 0; }
+
+  .g-badge{
+    position: absolute; top: 8px; left: 8px;
+    background: rgba(0,0,0,0.7); color: #fff;
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.04em;
+    padding: 3px 8px; border-radius: var(--radius);
+    pointer-events: none;
+  }
 
   /* ---------- LIGHTBOX ---------- */
   .lb{
@@ -104,7 +104,14 @@
   }
   .lb.open{ display: flex; }
   .lb-figure{ margin: 0; max-width: 100%; max-height: 100%; display: flex; flex-direction: column; align-items: center; gap: 14px; }
-  .lb-media{ max-width: 100%; max-height: calc(100vh - 190px); object-fit: contain; border-radius: var(--radius); }
+  .lb-stage{ display: flex; align-items: center; justify-content: center; }
+  .lb-media{
+    display: block;
+    width: auto; height: auto;
+    max-width: calc(100vw - 128px);
+    max-height: calc(100vh - 190px);
+    object-fit: contain; border-radius: var(--radius);
+  }
   .lb-cap{ color: #fff; text-align: center; max-width: 60ch; }
   .lb-cap strong{ display: block; font-weight: 600; }
   .lb-cap span{ color: #B5B5C0; font-size: 0.9rem; }
@@ -141,11 +148,12 @@
     .gallery{ column-width: auto; column-count: 2; column-gap: 14px; }
     .g-item{ margin-bottom: 14px; }
     .lb{ padding: 64px 12px; }
+    .lb-media{ max-width: calc(100vw - 24px); }
     .lb-prev{ top: auto; bottom: 16px; left: 24px; transform: none; }
     .lb-next{ top: auto; bottom: 16px; right: 24px; transform: none; }
   }
   @media (prefers-reduced-motion: reduce){
-    .g-thumb img{ transition: none; }
+    .g-thumb img, .g-thumb video{ transition: none; }
   }
 </style>
 </head>
@@ -165,219 +173,16 @@
 
     <!--
       To add a piece, copy one <button class="g-item"> block and edit it:
-        data-src = full-size image shown in the popup
+        data-src = full-size image/video shown in the popup
+        data-type="video" = add this only for videos
         data-title / data-desc = caption in the popup
     -->
     <div class="gallery" data-gallery>
 
-
-
-
- <button class="g-item" data-type="video" data-src="images/Dream4.mp4" data-title="Jumpin'" data-desc="Animation - drawn frame-by-frame in Procreate Dreams.">
+      <button class="g-item" data-type="video" data-src="images/Dream4.mp4" data-title="Jumpin'" data-desc="Animation - drawn frame-by-frame in Procreate Dreams.">
         <div class="g-thumb">
           <video src="images/Dream4.mp4#t=0.1" muted playsinline preload="metadata"></video>
           <span class="g-badge">▶ VIDEO</span>
         </div>
-        <h3>Jumpin</h3>
-        <p>Procreate Dreams - 2026</p>
-   </button>
-      
-    <button class="g-item" data-type="video" data-src="images/clap.mov" data-title="Clap" data-desc="Animation - drawn frame-by-frame in Procreate Dreams.">
-        <div class="g-thumb">
-          <video src="images/clap.mov#t=0.1" muted playsinline preload="metadata"></video>
-          <span class="g-badge">▶ VIDEO</span>
-        </div>
-    </button>
-      
-      <button class="g-item" data-src="images/girl.jpg" data-title="Untitled" data-desc="Digital - 2026">
-        <div class="g-thumb"><img src="images/girl.jpg" alt="girl" loading="lazy"></div>
-        <h3>Untitled</h3>
-        <p>Digital - 2026</p>
-      </button>
-
-      <button class="g-item" data-src="images/Sep26.jpeg" data-title="Shelf Decor" data-desc="Digital - 2026">
-        <div class="g-thumb"><img src="images/Sep26.jpeg" alt="Dreams on the shelf" loading="lazy"></div>
-        <h3>Shelf Decor</h3>
-        <p>Digital - 2026</p>
-      </button>
-
-      <button class="g-item" data-src="images/feet.jpg" data-title="Cuties" data-desc="Digital - 2026">
-        <div class="g-thumb"><img src="images/feet.jpg" alt="Cuties" loading="lazy"></div>
-        <h3>Cuties</h3>
-        <p>Digital - 2026</p>
-      </button>
-
-      <button class="g-item" data-src="images/booty.JPG" data-title="Untitled" data-desc="Digital - 2026">
-        <div class="g-thumb"><img src="images/booty.JPG" alt="Untitled" loading="lazy"></div>
-        <h3>Untitled</h3>
-        <p>Digital - 2026</p>
-      </button>
-
-      <button class="g-item" data-src="images/flowers.jpg" data-title="Untitled" data-desc="Digital - 2026">
-        <div class="g-thumb"><img src="images/flowers.jpg" alt="flowers" loading="lazy"></div>
-        <h3>Untitled</h3>
-        <p>Digital - 2026</p>
-      </button>
-
-      <button class="g-item" data-src="images/tiles.jpg" data-title="Tiles" data-desc="Digital - 2026">
-        <div class="g-thumb"><img src="images/tiles.jpg" alt="tiles" loading="lazy"></div>
-        <h3>Tiles</h3>
-        <p>Digital - 2026</p>
-        
-      </button>
-      <button class="g-item" data-src="images/collage1.jpg" data-title="Untitled" data-desc= "Mixed media, Collage, Color Pencils, masking tape - 2025">
-        <div class="g-thumb"><img src="images/collage1.jpg" alt="Mixed media, Collage, Color Pencils, masking tape - 2025" loading="lazy"></div>
-        <h3>Untitled</h3>
-        <p>Mixed media, Collage, Color Pencils, masking tape - 2025</p>
-      </button>
-      
-      <button class="g-item" data-src="images/worldpeace.jpeg" data-title="Untitled" data-desc="Color Pencils, graphite on Sketchpaper" - 2025">
-        <div class="g-thumb"><img src="images/worldpeace.jpeg" alt="Color Pencils, graphite on Sketchpaper" loading="lazy"></div>
-        <h3>Untitled</h3>
-        <p>Color Pencils, graphite on Sketchpaper - 2025</p>
-      </button<
-<button class="g-item" data-src="images/mastercopy.png" data-title="Benefits Supervisor Sleeping" data-desc="Charcoal - 2024">
-        <div class="g-thumb"><img src="images/mastercopy.png" alt="Benefits Supervisor Sleeping" loading="lazy"></div>
-        <h3>Mastercopy - "Benefits Supervisor Sleeping"</h3>
-        <p>Charcoal - 2024</p>
-</button>
-  <button class="g-item" data-src="images/610.png" data-title="Restroom" data-desc="Drypoint Intaglio Print" - 2023">
-        <div class="g-thumb"><img src="images/610.png" alt="Restroom" loading="lazy"></div>
-        <h3>Restroom</h3>
-        <p>Drypoint Intaglio Print - 2024</p>
-  </button>
-        <button class="g-item" data-src="images/bathroom.jpeg" data-title="Restroom 2" data-desc="Ballpoint Pen on Sketchpaper" - 2023">
-        <div class="g-thumb"><img src="images/bathroom.jpeg" alt="Restroom" loading="lazy"></div>
-        <h3>Restroom 2</h3>
-        <p>Ballpoint Pen on Sketchpaper</p>
-        </button>
-      
-         <button class="g-item" data-src="images/lilo.jpeg" data-title="Lilo" data-desc="Color pencil, makers, Ballpoint Pen on Sketchpaper" - 2023">
-        <div class="g-thumb"><img src="images/lilo.jpeg" alt="Lilo" loading="lazy"></div>
-        <h3>Lilo</h3>
-        <p>Color pencil, makers, Ballpoint Pen on Sketchpaper</p>
-         </button>
-      
-<button class="g-item" data-src="images/parents.png" data-title="Parents" data-desc="Drypoint Intaglio Print" - 2018">
-        <div class="g-thumb"><img src="images/parents.png" alt="Parents" loading="lazy"></div>
-        <h3>Parents</h3>
-        <p>Drypoint Intaglio Print - 2018</p>
-</button>
-<button class="g-item" data-src="images/feet-fingers.png" data-title="Untitled" data-desc="Color pencils, makers, ballpoint pen on Sketch paper" - 2017">
-        <div class="g-thumb"><img src="images/feet-fingers.png" alt="Color pencils, makers, ballpoint pen on Sketch paper" loading="lazy"></div>
-        <h3>Untitled</h3>
-        <p>"Color pencils, makers, ballpoint pen on Sketch paper" - 2017</p>
-</button> 
-    
-    
-  </button>
-      
-  </button>
-</button>
-    </div>
-  </div>
-</section>
-
-<footer>© 2026 Andy Dong</footer>
-
-<!-- ================= LIGHTBOX ================= -->
-<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Gallery viewer" hidden>
-  <div class="lb-count" id="lb-count"></div>
-  <button class="lb-close" id="lb-close" aria-label="Close">✕</button>
-  <button class="lb-prev" id="lb-prev" aria-label="Previous">‹</button>
-  <figure class="lb-figure" id="lb-figure">
-    <div id="lb-stage"></div>
-    <figcaption class="lb-cap"><strong id="lb-title"></strong><span id="lb-desc"></span></figcaption>
-  </figure>
-  <button class="lb-next" id="lb-next" aria-label="Next">›</button>
-</div>
-
-<script>
-(function(){
-  var lb = document.getElementById('lb');
-  var stage = document.getElementById('lb-stage');
-  var titleEl = document.getElementById('lb-title');
-  var descEl = document.getElementById('lb-desc');
-  var countEl = document.getElementById('lb-count');
-  var items = [], index = 0, lastFocus = null;
-
-  // Hover-to-preview for video thumbnails
-  document.querySelectorAll('.g-item[data-type="video"]').forEach(function(btn){
-    var v = btn.querySelector('video');
-    if(!v) return;
-    btn.addEventListener('mouseenter', function(){ v.play().catch(function(){}); });
-    btn.addEventListener('mouseleave', function(){ v.pause(); v.currentTime = 0.1; });
-  });
-
-  // Each gallery navigates only within its own section
-  document.querySelectorAll('[data-gallery]').forEach(function(g){
-    var list = Array.prototype.slice.call(g.querySelectorAll('.g-item'));
-    list.forEach(function(btn, i){
-      btn.addEventListener('click', function(){ lastFocus = btn; items = list; open(i); });
-    });
-  });
-
-  function render(){
-    var it = items[index];
-    stage.innerHTML = '';
-    var el;
-    if(it.dataset.type === 'video'){
-      el = document.createElement('video');
-      el.src = it.dataset.src;
-      el.controls = true; el.autoplay = true; el.playsInline = true;
-    } else {
-      el = document.createElement('img');
-      el.src = it.dataset.src;
-      el.alt = it.dataset.title || '';
-    }
-    el.className = 'lb-media';
-    stage.appendChild(el);
-    titleEl.textContent = it.dataset.title || '';
-    descEl.textContent = it.dataset.desc || '';
-    countEl.textContent = (index + 1) + ' / ' + items.length;
-    var multi = items.length > 1;
-    document.getElementById('lb-prev').style.display = multi ? '' : 'none';
-    document.getElementById('lb-next').style.display = multi ? '' : 'none';
-  }
-  function open(i){
-    index = i; render();
-    lb.hidden = false; lb.classList.add('open');
-    document.body.style.overflow = 'hidden';
-    document.getElementById('lb-close').focus();
-  }
-  function close(){
-    lb.classList.remove('open'); lb.hidden = true;
-    stage.innerHTML = '';
-    document.body.style.overflow = '';
-    if(lastFocus) lastFocus.focus();
-  }
-  function step(d){
-    index = (index + d + items.length) % items.length;
-    render();
-  }
-
-  document.getElementById('lb-close').addEventListener('click', close);
-  document.getElementById('lb-prev').addEventListener('click', function(){ step(-1); });
-  document.getElementById('lb-next').addEventListener('click', function(){ step(1); });
-  lb.addEventListener('click', function(e){ if(e.target === lb) close(); });
-  document.addEventListener('keydown', function(e){
-    if(lb.hidden) return;
-    if(e.key === 'Escape') close();
-    else if(e.key === 'ArrowLeft') step(-1);
-    else if(e.key === 'ArrowRight') step(1);
-  });
-
-  // Swipe on touch devices
-  var sx = null;
-  lb.addEventListener('touchstart', function(e){ sx = e.touches[0].clientX; }, {passive:true});
-  lb.addEventListener('touchend', function(e){
-    if(sx === null) return;
-    var dx = e.changedTouches[0].clientX - sx;
-    if(Math.abs(dx) > 50) step(dx < 0 ? 1 : -1);
-    sx = null;
-  });
-})();
-</script>
-
-</body>
-</html>
+        <h3>Jumpin'</h3>
+        <p>Procreate

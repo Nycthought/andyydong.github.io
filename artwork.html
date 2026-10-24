@@ -195,7 +195,18 @@
         <h3>Clap</h3>
         <p>Procreate Dreams - 2026</p>
       </button>
+      
+<button class="g-item" data-title="Scotts Miracle-Gro" data-desc="Illustrations for Scotts Miracle-Gro"
+        data-slides="images/Social Media.png|images/Heading Page.png|images/Greenprints Module.png|images/scotts-5.png|images/scotts-6.png">
+  <div class="g-thumb">
+    <img src="images/scotts-1.png" alt="Scotts Miracle-Gro illustration" loading="lazy">
+    <span class="g-badge">6 IMAGES</span>
+  </div>
+  <h3>Scotts Miracle-Gro</h3>
+  <p>Illustration series</p>
+</button>
 
+      
       <button class="g-item" data-src="images/girl.jpg" data-title="Untitled" data-desc="Digital - 2026">
         <div class="g-thumb"><img src="images/girl.jpg" alt="girl" loading="lazy"></div>
         <h3>Untitled</h3>
@@ -372,7 +383,13 @@
     else if(e.key === 'ArrowLeft') step(-1);
     else if(e.key === 'ArrowRight') step(1);
   });
-
+if(btn.dataset.slides){
+  var caps = (btn.dataset.captions || '').split('|');
+  items = btn.dataset.slides.split('|').map(function(src, n){
+    return { dataset: { src: src.trim(), title: btn.dataset.title, desc: (caps[n] || btn.dataset.desc).trim() } };
+  });
+  open(0);
+}
   // Swipe on touch devices
   var sx = null;
   lb.addEventListener('touchstart', function(e){ sx = e.touches[0].clientX; }, {passive:true});

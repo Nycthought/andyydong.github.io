@@ -72,6 +72,19 @@
     border-radius: var(--radius);
     overflow: hidden;
   }
+  .g-item{
+  display: block;
+  width: 100%;
+  margin: 0 0 var(--grid-gap);
+  break-inside: avoid;
+  }
+  .g-thumb{
+  position: relative;
+  aspect-ratio: auto;        /* remove any forced ratio */
+  height: auto;
+  overflow: hidden;
+  background: #eee;
+  }
   .g-thumb img{
     width: 100%; height: auto;
     transition: transform 0.35s ease;
@@ -157,17 +170,14 @@
     -->
     <div class="gallery" data-gallery>
 
-        <body>
-  <section class="section" id="work">
-    <div class="wrap">
-      <h1>Animations</h1>
-      <p class="section-intro"></p>
+
+
 
  <button class="g-item" data-type="video" data-src="images/Dream4.mp4" data-title="Jumpin'" data-desc="Animation - drawn frame-by-frame in Procreate Dreams.">
         <div class="g-thumb">
           <video src="images/Dream4.mp4#t=0.1" muted playsinline preload="metadata"></video>
           <span class="g-badge">▶ VIDEO</span>
-      
+        </div>
         <h3>Jumpin</h3>
         <p>Procreate Dreams - 2026</p>
    </button>
@@ -176,6 +186,7 @@
         <div class="g-thumb">
           <video src="images/clap.mov#t=0.1" muted playsinline preload="metadata"></video>
           <span class="g-badge">▶ VIDEO</span>
+        </div>
     </button>
       
       <button class="g-item" data-src="images/girl.jpg" data-title="Untitled" data-desc="Digital - 2026">
